@@ -1,8 +1,8 @@
 #include "Cmd.h"
 
 Cmd::Cmd(int argc, char** argv) {
-	if (argc == 2) {
-		path = (const char*)argv;
+	if (argc > 1) {
+		path = argv[1];
 	} else {
 		path = navigator.getPath();
 	}
@@ -26,14 +26,14 @@ int Cmd::iterator() {
 		while (cin.fail()) {
 			getline(cin, command);
 		}
-
-		process(command);
-	} while (command != "exit");
+	} while (process(command));
 
 	return 1;
 }
 
-void Cmd::process(string command) {
+bool Cmd::process(string command) {
+	bool exit = command == "exit";
+
 	vector<string> params = (Parameter(command)).getParameters();
 
 	if (params.size() > 0) {
@@ -48,11 +48,18 @@ void Cmd::process(string command) {
 		} else if (cmd == "ocm") {
 			OpencartCloneModule process = OpencartCloneModule();
 
+			process.setPath(path);
 			process.execute(params);
 		} else {
-			cout << " Команда " << command << " не определена" << endl;
+			if (!exit) {
+				cout << " Команда " << command << " не определена" << endl;
+			}
 		}
 
-		cout << endl;
+		if (!exit) {
+			cout << endl;
+		}
 	}
+	
+	return !exit;
 }

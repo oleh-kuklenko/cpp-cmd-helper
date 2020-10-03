@@ -21,7 +21,7 @@ class Cmd {
 	public:
 		Cmd(int, char**);
 		int iterator();
-		void process(string);
+		bool process(string);
 
 	private:
 		Navigator navigator = Navigator();

@@ -14,7 +14,7 @@ void Cmd::getCommand(string& command) {
 	getline(cin, command);
 
 	if (cin.fail()) {
-		cout << " Произошла ошибка при вводе комманды. Повторите ввод." << endl;
+		cout << " Error while entering command, please retype." << endl;
 		cout << " " << path << "> ";
 
 		command = "";
@@ -56,7 +56,7 @@ bool Cmd::process(string command) {
 			process.execute(params);
 		} else {
 			if (!exit) {
-				cout << " Команда " << command << " не определена" << endl;
+				cout << " Command " << command << " not defined" << endl;
 			}
 		}
 

@@ -53,7 +53,7 @@ void OpencartCloneModule::execute(vector<string> params) const {
 		} else if (isOpencartVersion(version, v2_3)) {
 			doOpencart(v2_3, from_module, module_name);
 		} else {
-			cout << "  Текущая версия не поддерживается" << endl;
+			cout << "  Version not supported" << endl;
 		}
 	}
 }
@@ -64,19 +64,19 @@ void OpencartCloneModule::setPath(string _path) {
 
 bool OpencartCloneModule::isValid(vector<string> params) const {
 	if (params.size() < 2) {
-		cout << "  Не указан параметр <opencart_version>" << endl;
+		cout << "  Parameter <opencart_version> not specified" << endl;
 
 		return false;
 	}
 
 	if (params.size() < 3) {
-		cout << "  Не указан параметр <from_module>" << endl;
+		cout << "  Parameter <from_module> not specified" << endl;
 
 		return false;
 	}
 
 	if (params.size() < 4) {
-		cout << "  Не указан параметр <module_name>" << endl;
+		cout << "  Parameter <module_name> not specified" << endl;
 
 		return false;
 	}
@@ -108,7 +108,7 @@ void OpencartCloneModule::doOpencart(string version, string from_module, string 
 	if (files.size() > 0) {
 		string confirm = "";
 		
-		cout << endl << "  Скопировать файлы модуля в директорию? (+/-) "; cin >> confirm; cout << endl ;
+		cout << endl << "  Copy file to directory? (+/-) "; cin >> confirm; cout << endl ;
 
 		if (confirm.find("+") != string::npos) {
 			vector<filesystem::path> module_files = copyFiles(files, from_module, module_name);
@@ -146,7 +146,7 @@ string OpencartCloneModule::readFile(string file) const {
 
 		in.close();
 	} else {
-		cout << "  Не удалось открыть файл [ " << file << " ]" << endl;
+		cout << "  Could not open file [ " << file << " ]" << endl;
 	}
 
 	return content;
@@ -159,17 +159,17 @@ void OpencartCloneModule::writeToFile(filesystem::path file, string content) con
 		out << content;
 		
 		if(out.fail()) {
-			cout << "  Произошла ошибка при записи в файл [ " << file << " ] " << endl;
+			cout << "  An error occurred while writing to file [ " << file << " ] " << endl;
 		}
 
 		out.close();
 	} else {
-		cout << "  Не удалось открыть файл [ " << file << " ] " << endl;
+		cout << "  Could not open file [ " << file << " ] " << endl;
 	}
 }
 
 void OpencartCloneModule::replaceModuleNames(vector<filesystem::path> files, string from_module, string module_name) const {
-	cout << endl << "  Результат:" << endl;
+	cout << endl << "  Results:" << endl;
 
 	for (filesystem::path& file : files) {
 		bool isReady = true;
@@ -187,7 +187,7 @@ void OpencartCloneModule::replaceModuleNames(vector<filesystem::path> files, str
 
 		writeToFile(file, file_content);
 
-		cout << "  Файл [ " << file << " ] - готов" << endl;
+		cout << "  File [ " << file << " ] - ready" << endl;
 	}
 }
 
@@ -258,14 +258,14 @@ vector<filesystem::path> OpencartCloneModule::searchFiles(vector<string>version_
 		cerr << "  " << e.what() << endl;
 	}
 
-	cout << "  Результат поиска:" << endl;
+	cout << "  Search results:" << endl;
 
 	if (files.size() > 0) {
 		for (filesystem::path& file : files) {
 			cout << "  " << file << endl;
 		}
 	} else {
-		cout << "  Не найдены файлы модуля [ " << from_module << " ]" << endl;
+		cout << "  Files module of [ " << from_module << " ] not found" << endl;
 	}
 
 	return files;
@@ -286,14 +286,14 @@ vector<filesystem::path> OpencartCloneModule::copyFiles(vector<filesystem::path>
 		cerr << "  " << e.what() << endl;
 	}
 
-	cout << "  Скопированные файлы:" << endl;
+	cout << "  Files of copied:" << endl;
 
 	if (copied.size() > 0) {
 		for (filesystem::path& copy : copied) {
 			cout << "  " << copy << endl;
 		}
 	} else {
-		cout << "  Не удалось скопировать файлы модуля [ " << from_module << " ]" << endl;
+		cout << "  Failed to copy files of module of [ " << from_module << " ]" << endl;
 	}
 
 	return copied;

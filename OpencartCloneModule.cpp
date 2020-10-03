@@ -3,6 +3,17 @@
 #define BOOST_FILESYSTEM_NO_DEPRECATED
 #define BOOST_FILESYSTEM_VERSION 3
 
+const vector<string> opencart1_5_directories({
+	"admin\\controller\\module",
+	"admin\\language\\*\\module",
+	"admin\\model\\module",
+	"admin\\view\\template\\module",
+	"catalog\\controller\\module",
+	"catalog\\language\\*\\module",
+	"catalog\\model\\module",
+	"admin\\view\\theme\\*\\template\\module"
+});
+
 void OpencartCloneModule::execute(vector<string> params) const {
 	if (isValid(params)) {
 		string version = params[1];
@@ -60,12 +71,16 @@ bool OpencartCloneModule::isOpencart2_3(string version) const {
 }
 
 void OpencartCloneModule::doOpencart1_5(string from_module, string module_name) const {
-	vector<string> directories;
+	vector<boost::filesystem::path> files = searchFiles(from_module);
 
-	vector<boost::filesystem::path> pathes{ boost::filesystem::recursive_directory_iterator(path), {} };
-	
-	for (auto& p : pathes) {
-		cout << p << endl;
+	cout << "  Результат поиска:" << endl;
+
+	if (files.size() > 0) {
+		for (boost::filesystem::path& file : files) {
+			cout << "  " << file << endl;
+		}
+	} else {
+		cout << "  Не найдены файлы модуля [ " << from_module << " ]" << endl;
 	}
 }
 
@@ -75,6 +90,39 @@ void OpencartCloneModule::doOpencart2_0(string from_module, string module_name) 
 
 void OpencartCloneModule::doOpencart2_3(string from_module, string module_name) const {
 	cout << "do v2.3" << endl;
+}
+
+vector<boost::filesystem::path> OpencartCloneModule::searchFiles(string from_module) const {
+	vector<boost::filesystem::path> files({});
+
+	vector<boost::filesystem::path> pathes{ boost::filesystem::recursive_directory_iterator((boost::filesystem::path)path), {} };
+
+	for (boost::filesystem::path& p : pathes) {
+		string _path = boost::filesystem::canonical(p).string();
+
+		for (string search_directory : opencart1_5_directories) {
+			string file = search_directory + "\\" + from_module;
+
+			if (search_directory.find("*") != string::npos) {
+				std::vector<std::string> chanks;
+
+				boost::split(chanks, search_directory, boost::is_any_of("*"), boost::token_compress_on);
+
+				string left = chanks[0];
+				string right = chanks[1] + "\\" + from_module;
+
+				if (_path.find(left) != string::npos && _path.find(right) != string::npos) {
+					files.push_back(p);
+				}
+			} else {
+				if (_path.find(file) != string::npos) {
+					files.push_back(p);
+				}
+			}
+		}
+	}
+
+	return files;
 }
 
 int OpencartCloneModule::version_compare(const string& a, const string& b) const {

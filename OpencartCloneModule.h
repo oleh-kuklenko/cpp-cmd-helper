@@ -12,6 +12,7 @@ class OpencartCloneModule : public Process {
 		void execute(vector<string>) const override;
 		void setPath(string);
 		bool isValid(vector<string>) const;
+
 		bool isOpencart1_5(string) const;
 		bool isOpencart2_0(string) const;
 		bool isOpencart2_3(string) const;
@@ -19,6 +20,8 @@ class OpencartCloneModule : public Process {
 		void doOpencart1_5(string, string) const;
 		void doOpencart2_0(string, string) const;
 		void doOpencart2_3(string, string) const;
+
+		vector<boost::filesystem::path> searchFiles(string) const;
 
 		int version_compare(const string&, const string&) const;
 

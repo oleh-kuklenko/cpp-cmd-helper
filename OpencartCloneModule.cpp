@@ -15,7 +15,7 @@ const vector<string> v1_5_directories({
 	"catalog\\controller\\module",
 	"catalog\\language\\*\\module",
 	"catalog\\model\\module",
-	"admin\\view\\theme\\*\\template\\module"
+	"catalog\\view\\theme\\*\\template\\module"
 });
 
 const vector<string> v2_0_directories({
@@ -26,7 +26,7 @@ const vector<string> v2_0_directories({
 	"catalog\\controller\\module",
 	"catalog\\language\\*\\module",
 	"catalog\\model\\module",
-	"admin\\view\\theme\\*\\template\\module"
+	"catalog\\view\\theme\\*\\template\\module"
 });
 
 const vector<string> v2_3_directories({
@@ -37,7 +37,7 @@ const vector<string> v2_3_directories({
 	"catalog\\controller\\extension\\module",
 	"catalog\\language\\*\\extension\\module",
 	"catalog\\model\\extension\\module",
-	"admin\\view\\theme\\*\\template\\extension\\module"
+	"catalog\\view\\theme\\*\\template\\extension\\module"
 });
 
 void OpencartCloneModule::execute(vector<string> params) const {

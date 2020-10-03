@@ -4,8 +4,14 @@
 
 #include "Process.h"
 
+#include <boost/algorithm/string.hpp>
 #include <boost/filesystem/path.hpp>
 #include <boost/filesystem/convenience.hpp>
+#include <boost/filesystem/fstream.hpp>
+#include <boost/locale.hpp>
+#include <fstream>
+
+using namespace boost;
 
 class OpencartCloneModule : public Process {
 	public:
@@ -13,15 +19,24 @@ class OpencartCloneModule : public Process {
 		void setPath(string);
 		bool isValid(vector<string>) const;
 
-		bool isOpencart1_5(string) const;
-		bool isOpencart2_0(string) const;
-		bool isOpencart2_3(string) const;
+		bool isOpencartVersion(string, string) const;
+		void doOpencart(string, string, string) const;
+		bool isPhpFile(filesystem::path) const;
+		bool isTplFile(filesystem::path) const;
+		string readFile(string) const;
+		void writeToFile(filesystem::path, string) const;
+		void replaceModuleNames(vector<filesystem::path>, string, string) const;
+		void replaceModuleNameController(string&, string, string) const;
+		void replaceModuleNameLoad(string&, string, string) const;
+		void replaceModuleNameProperty(string&, string, string) const;
+		void replaceModuleName(string&, string, string) const;
 
-		void doOpencart1_5(string, string) const;
-		void doOpencart2_0(string, string) const;
-		void doOpencart2_3(string, string) const;
+		vector<filesystem::path> searchFiles(vector<string>, string) const;
+		vector<filesystem::path> copyFiles(vector<filesystem::path>, string, string) const;
+		filesystem::path replaceModuleName(filesystem::path, string, string) const;
 
-		vector<boost::filesystem::path> searchFiles(string) const;
+		vector<string> splitStr(string, string) const;
+		vector<string> eachFirstToUpper(vector<string>) const;
 
 		int version_compare(const string&, const string&) const;
 

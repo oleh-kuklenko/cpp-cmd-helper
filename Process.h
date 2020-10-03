@@ -6,7 +6,6 @@
 #include <string>
 #include <vector>
 #include <algorithm>
-#include <boost/algorithm/string.hpp>
 #include "Process.h"
 
 using namespace std;

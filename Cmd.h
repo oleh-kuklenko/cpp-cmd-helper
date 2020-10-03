@@ -20,6 +20,7 @@ class Cmd {
 
 	public:
 		Cmd(int, char**);
+		void getCommand(string&);
 		int iterator();
 		bool process(string);
 

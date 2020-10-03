@@ -106,10 +106,16 @@ void OpencartCloneModule::doOpencart(string version, string from_module, string 
 	}
 
 	if (files.size() > 0) {
-		vector<filesystem::path> module_files = copyFiles(files, from_module, module_name);
+		string confirm = "";
+		
+		cout << endl << "  Скопировать файлы модуля в директорию? (+/-) "; cin >> confirm; cout << endl ;
 
-		if (module_files.size() > 0) {
-			replaceModuleNames(module_files, from_module, module_name);
+		if (confirm.find("+") != string::npos) {
+			vector<filesystem::path> module_files = copyFiles(files, from_module, module_name);
+
+			if (module_files.size() > 0) {
+				replaceModuleNames(module_files, from_module, module_name);
+			}
 		}
 	}
 }
@@ -280,7 +286,7 @@ vector<filesystem::path> OpencartCloneModule::copyFiles(vector<filesystem::path>
 		cerr << "  " << e.what() << endl;
 	}
 
-	cout << endl << "  Скопированные файлы:" << endl;
+	cout << "  Скопированные файлы:" << endl;
 
 	if (copied.size() > 0) {
 		for (filesystem::path& copy : copied) {

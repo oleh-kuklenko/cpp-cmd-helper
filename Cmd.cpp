@@ -8,24 +8,28 @@ Cmd::Cmd(int argc, char** argv) {
 	}
 }
 
+void Cmd::getCommand(string& command) {
+	cout << " " << path << "> ";
+
+	getline(cin, command);
+
+	if (cin.fail()) {
+		cout << " Произошла ошибка при вводе комманды. Повторите ввод." << endl;
+		cout << " " << path << "> ";
+
+		command = "";
+	}
+
+	while (cin.fail()) {
+		getline(cin, command);
+	}
+}
+
 int Cmd::iterator() {
 	string command = "";
 
 	do {
-		cout << " " << path << "> ";
-
-		getline(cin, command);
-
-		if (cin.fail()) {
-			cout << " Произошла ошибка при вводе комманды. Повторите ввод." << endl;
-			cout << path << "> ";
-
-			command = "";
-		}
-
-		while (cin.fail()) {
-			getline(cin, command);
-		}
+		getCommand(command);
 	} while (process(command));
 
 	return 1;
